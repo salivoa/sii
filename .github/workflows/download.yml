@@ -24,7 +24,7 @@ jobs:
           zip -r seamless-m4t-v2-large.zip seamless-m4t-v2-large
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: seamless-m4t-v2-large
           path: seamless-m4t-v2-large.zip
