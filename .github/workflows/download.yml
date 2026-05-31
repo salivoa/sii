@@ -12,7 +12,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt install git-lfs -y
-          pip install huggingface_hub
+          pip install --upgrade huggingface_hub
 
       - name: Debug token
         env:
@@ -28,11 +28,11 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          huggingface-cli login --token "$HF_TOKEN" --add-to-git-credential
+          echo "$HF_TOKEN" | hf auth login --token --stdin
 
       - name: Download model via HF CLI
         run: |
-          huggingface-cli download facebook/seamless-m4t-v2-large \
+          hf download facebook/seamless-m4t-v2-large \
             --local-dir seamless-m4t-v2-large \
             --local-dir-use-symlinks False
 
