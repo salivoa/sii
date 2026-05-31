@@ -1,0 +1,30 @@
+name: Download SeamlessM4T
+
+on:
+  workflow_dispatch:
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install git-lfs
+        run: |
+          sudo apt update
+          sudo apt install git-lfs -y
+          git lfs install
+
+      - name: Clone model
+        run: |
+          git clone https://huggingface.co/facebook/seamless-m4t-v2-large
+
+      - name: Zip model
+        run: |
+          sudo apt install zip -y
+          zip -r seamless-m4t-v2-large.zip seamless-m4t-v2-large
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: seamless-m4t-v2-large
+          path: seamless-m4t-v2-large.zip
