@@ -14,9 +14,13 @@ jobs:
           sudo apt install git-lfs -y
           git lfs install
 
-      - name: Clone model
+      - name: Clone model with HF token
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          git clone https://huggingface.co/facebook/seamless-m4t-v2-large
+          git clone https://$HF_TOKEN@huggingface.co/facebook/seamless-m4t-v2-large
+          cd seamless-m4t-v2-large
+          git lfs pull
 
       - name: Zip model
         run: |
