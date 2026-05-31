@@ -8,19 +8,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Install git-lfs
+      - name: Install dependencies
         run: |
           sudo apt update
           sudo apt install git-lfs -y
-          git lfs install
+          pip install huggingface_hub
 
-      - name: Clone model with HF token
+      - name: Login to Hugging Face
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          git clone https://$HF_TOKEN@huggingface.co/facebook/seamless-m4t-v2-large
-          cd seamless-m4t-v2-large
-          git lfs pull
+          huggingface-cli login --token "$HF_TOKEN"
+
+      - name: Download model via HF CLI
+        run: |
+          huggingface-cli download facebook/seamless-m4t-v2-large \
+            --local-dir seamless-m4t-v2-large \
+            --local-dir-use-symlinks False
 
       - name: Zip model
         run: |
